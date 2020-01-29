@@ -20,12 +20,13 @@ int main(int argc, char * argv[]) {
     for (i = 0; i < N_REPS; i++) {
         char * cp = argv[1];
 
-        while (*cp) {
+        while (*cp && system("mkdir tmp")!=0) {
             printf("%c", *cp++);
             fflush(stdout);
-            usleep(random() % slow_down);
+            sleep(rand() % slow_down);
         }
-        usleep(5000);
+        system("rmdir tmp");
+        sleep(5000);
     }
     return EXIT_SUCCESS;
 }

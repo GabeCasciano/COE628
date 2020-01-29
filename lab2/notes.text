@@ -1,0 +1,4 @@
+$ test -e 'dir/dir/dir' -> checks if any file with that name exists
+$ mkdir 'dir/dir/dir' -> will return 1 if file already exists
+-> Use the '&' operator to run mutlipe programs concurrently
+$ command1 | tee 1.log & command2 | tee 2.log -> to see their output seperatly
