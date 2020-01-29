@@ -19,14 +19,15 @@ int main(int argc, char * argv[]) {
 
     for (i = 0; i < N_REPS; i++) {
         char * cp = argv[1];
-
-        while (*cp && system("mkdir tmp")!=0) {
-            printf("%c", *cp++);
-            fflush(stdout);
-            sleep(rand() % slow_down);
+        while(system("mkdir tmp")== 0){
+            while (*cp) {
+                printf("%c", *cp++);
+                fflush(stdout);
+                usleep(rand() % slow_down);
+            }
         }
-        system("rmdir tmp");
-        sleep(5000);
+        system("rm -r tmp");
+        usleep(5000);
     }
     return EXIT_SUCCESS;
 }
