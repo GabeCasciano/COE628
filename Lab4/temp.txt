@@ -2,31 +2,20 @@
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
- */
-
-/* 
- * File:   main.c
+ */ /*
+ * File: main.c
  * Author: gabriel
  *
  * Created on February 5, 2020, 2:05 AM
  */
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
-#include <sys/types.h>
-
-pid_t pid;
-
-
-char * read_stdin(){
+#include <stdio.h> include <stdlib.h> include <string.h> include <unistd.h> include <sys/types.h>
+pid_t pid; char * read_stdin(){
     char buffer;
     char * input_string = (char*)malloc(1);
     char * temp;
     int input_len = 0;
     
-    while((buffer = getchar()) != '\n'){ 
+    while((buffer = getchar()) != '\n'){
         temp = (char*)malloc(input_len);
         memcpy(temp, input_string, input_len);
         input_len++;
@@ -37,46 +26,60 @@ char * read_stdin(){
     
     return input_string;
 }
-
-char ** parse_input(char * input){
+void exececute(char * args[], int opt){
+    /*
+     * Op = 1 - parent waits for child
+     * Op = 2 - parent does not wait
+     * Op = 3 - parent & child concurrent
+     *
+     */
+    
+    pid = fork();
+    if(pid == 0){ // child
+        
+        execvp(args[0], args);
+        exit(0);
+    }
+    else
+        if(sim_exec_flag == 0)
+            wait(NULL);
+}
+void parse_input(char * input){
     const char * delim_char = " ";
     char* arg[100];
     char * temp = (char *)malloc(strlen(input));
+    char * temp2 = (char *)malloc(strlen(input));
     int index = 0;
     int sim_exec_flag = 0;
-    
     sim_exec_flag = strchr(input, '&');
     if(sim_exec_flag != 0){
         mempcpy(temp, input, sim_exec_flag);
-        mempcpy(temp2, &input[sim_exec_flag+1], strlen());
+        mempcpy(temp2, &input[sim_exec_flag+1], strlen())
     }
-    
     
     temp = strtok(input, delim_char);
     
     while(temp != NULL){
+        //Char copied
         arg[index] = (char *)malloc(strlen(temp));
         arg[index] = temp;
         index++;
         temp = strtok(NULL, delim_char);
     }
-        
+    
     arg[index+1] = NULL;
     
-    pid = fork();
-    if(pid == 0){ // child
-        execvp(arg[0], arg);
-        exit(0);
-    }
-    else
-        wait(NULL);
+    return arg;
+    free(temp);
 }
-
-int main()
-{
+int main() {
+    char args
+    fflush(stdin);
     for(;;){
-        printf("Your Command>");    
+        printf("Your Command>");
         parse_input(read_stdin());
+        fflush(stdin);
+        fflush(stdout);
     }
         
     return 0;
