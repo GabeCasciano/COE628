@@ -11,28 +11,23 @@ package lab7;
  */
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException{
         Counter counter = new Counter();
-        Thread threadA = new CounterThread(counter, 10);
-        Thread threadB = new CounterThread(counter, 11);
+        Thread threadA = new CounterThread(counter, 45);
+        Thread threadB = new CounterThread(counter, 55);
         
         System.out.println("Starting A");
         threadA.start();
         
         System.out.println("Starting B");
         threadB.start();
-        
-        try{
-            threadB.join();
-            System.out.println("B Finished");
+      
+        //threadB.join();
+        //System.out.println("B Finished");
             
-            threadA.join();
-            System.out.println("A Finished");
+        //threadA.join();
+        //System.out.println("A Finished");
             
-        }   catch(InterruptedException ex){
-            System.out.println("Should not get here! " + ex );
-        }
-        
         System.out.println("Counter: " + counter.count);
     }
     
